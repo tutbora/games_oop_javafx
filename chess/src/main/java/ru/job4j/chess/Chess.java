@@ -18,6 +18,8 @@ import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.*;
 import ru.job4j.chess.firuges.white.*;
 
+import java.util.Objects;
+
 public final class Chess extends Application {
     private static final String JOB4J = "Шахматы на www.job4j.ru";
     private final int size = 8;
@@ -44,7 +46,11 @@ public final class Chess extends Application {
         rect.setY(y);
         rect.setHeight(size);
         rect.setWidth(size);
-        Image img = new Image(getClass().getClassLoader().getResource(image).toString());
+        Image img = new Image(Objects
+                .requireNonNull(getClass()
+                        .getClassLoader()
+                        .getResource(image))
+                .toString());
         rect.setFill(new ImagePattern(img));
         final Rectangle momento = new Rectangle(x, y);
         rect.setOnDragDetected(
@@ -69,7 +75,7 @@ public final class Chess extends Application {
                         rect.setY(((int) event.getY() / 40) * 40 + 5);
                     } catch (Exception e) {
                         Alert info = new Alert(Alert.AlertType.ERROR);
-                        info.setContentText(e.getClass().getName() +  " "  + e.getMessage());
+                        info.setContentText(/*e.getClass().getName() +*/  " "  + e.getMessage());
                         info.show();
                         rect.setX(((int) momento.getX() / 40) * 40 + 5);
                         rect.setY(((int) momento.getY() / 40) * 40 + 5);

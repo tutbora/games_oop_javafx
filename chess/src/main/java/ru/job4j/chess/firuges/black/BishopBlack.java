@@ -1,5 +1,5 @@
 package ru.job4j.chess.firuges.black;
-
+// position - start, dest - finish
 import ru.job4j.chess.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
@@ -18,13 +18,71 @@ public class BishopBlack implements Figure {
 
     @Override
     public Cell[] way(Cell dest) {
-        throw new ImpossibleMoveException(
-                String.format("Could not way by diagonal from %s to %s", position, dest)
-        );
+        if (!isDiagonal(position, dest)) {
+            throw new ImpossibleMoveException(
+                    String.format("Игрок двигает фигуру"
+                            + " не по правилам шахмат из %s в %s", position, dest)
+            );
+        }
+        int size = Math.abs(position.getX() - dest.getX()); //TODO maybe
+        Cell[] steps = new Cell[size];
+        int xPosition = position.getX();
+        int yPosition = position.getY();
+        int xDest = dest.getX();
+        int yDest = dest.getY();
+        for (int index = 0; index < size; index++) {
+            if (xPosition > xDest && yPosition > yDest) {
+                steps[index] = Cell.findBy(--xPosition, --yPosition);
+            }
+            if (xPosition < xDest && yPosition < yDest) {
+                steps[index] = Cell.findBy(++xPosition, ++yPosition);
+            }
+            if (xPosition > xDest && yPosition < yDest) {
+                steps[index] = Cell.findBy(--xPosition, ++yPosition);
+            }
+            if (xPosition < xDest && yPosition > yDest) {
+                steps[index] = Cell.findBy(++xPosition, --yPosition);
+            }
+        }
+        return steps;
     }
 
-    public boolean isDiagonal(Cell source, Cell dest) {
-        return false;
+    public boolean isDiagonal(Cell position, Cell dest) {
+        boolean diag = false;
+        int size = Math.abs(position.getX() - dest.getX()); //TODO maybe
+        int xPosition = position.getX();
+        int yPosition = position.getY();
+        int xDest = dest.getX();
+        int yDest = dest.getY();
+            if (xPosition > xDest && yPosition > yDest) {
+                for (int i = 0; i < size; i++) {
+                    xPosition--;
+                    yPosition--;
+                }
+                diag = Cell.findBy(xPosition, yPosition).equals(dest);
+            }
+            if (xPosition < xDest && yPosition < yDest) {
+                for (int i = 0; i < size; i++) {
+                    xPosition++;
+                    yPosition++;
+                }
+                diag = Cell.findBy(xPosition, yPosition).equals(dest);
+            }
+            if (xPosition > xDest && yPosition < yDest) {
+                for (int i = 0; i < size; i++) {
+                    xPosition--;
+                    yPosition++;
+                }
+                diag = Cell.findBy(xPosition, yPosition).equals(dest);
+            }
+            if (xPosition < xDest && yPosition > yDest) {
+                for (int i = 0; i < size; i++) {
+                    xPosition++;
+                    yPosition--;
+                }
+                diag = Cell.findBy(xPosition, yPosition).equals(dest);
+            }
+        return diag;
     }
 
     @Override
