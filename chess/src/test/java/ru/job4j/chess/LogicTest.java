@@ -9,7 +9,7 @@ import ru.job4j.chess.firuges.black.KnightBlack;
 public class LogicTest {
 
     //@Ignore
-    @Test
+    @Test (expected = OccupiedCellException.class)
     public void whenMoveNotFree()
             throws FigureNotFoundException, OccupiedCellException, ImpossibleMoveException {
         Logic logic = new Logic();
@@ -18,7 +18,7 @@ public class LogicTest {
         logic.move(Cell.C1, Cell.H6);
     }
 
-    @Test // здесь большие вопросы, прилетает java.lang.NullPointerException
+    @Test
     public void whenMoveFree()
             throws FigureNotFoundException, OccupiedCellException, ImpossibleMoveException {
         Logic logic = new Logic();
@@ -26,7 +26,7 @@ public class LogicTest {
         logic.move(Cell.C1, Cell.H6);
     }
 
-    @Test
+    @Test (expected = ImpossibleMoveException.class)
     public void whenMoveNotRight()
             throws FigureNotFoundException, OccupiedCellException, ImpossibleMoveException {
         Logic logic = new Logic();

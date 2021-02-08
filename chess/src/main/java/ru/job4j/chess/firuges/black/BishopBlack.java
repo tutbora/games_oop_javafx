@@ -30,59 +30,18 @@ public class BishopBlack implements Figure {
         int yPosition = position.getY();
         int xDest = dest.getX();
         int yDest = dest.getY();
+        int deltaX = xDest > xPosition ? 1 : -1;
+        int deltaY = yDest > yPosition ? 1 : -1;
         for (int index = 0; index < size; index++) {
-            if (xPosition > xDest && yPosition > yDest) {
-                steps[index] = Cell.findBy(--xPosition, --yPosition);
-            }
-            if (xPosition < xDest && yPosition < yDest) {
-                steps[index] = Cell.findBy(++xPosition, ++yPosition);
-            }
-            if (xPosition > xDest && yPosition < yDest) {
-                steps[index] = Cell.findBy(--xPosition, ++yPosition);
-            }
-            if (xPosition < xDest && yPosition > yDest) {
-                steps[index] = Cell.findBy(++xPosition, --yPosition);
-            }
+            xPosition += deltaX;
+            yPosition += deltaY;
+            steps[index] = Cell.findBy(xPosition, yPosition);
         }
         return steps;
     }
 
     public boolean isDiagonal(Cell position, Cell dest) {
-        boolean diag = false;
-        int size = Math.abs(position.getX() - dest.getX()); //TODO maybe
-        int xPosition = position.getX();
-        int yPosition = position.getY();
-        int xDest = dest.getX();
-        int yDest = dest.getY();
-            if (xPosition > xDest && yPosition > yDest) {
-                for (int i = 0; i < size; i++) {
-                    xPosition--;
-                    yPosition--;
-                }
-                diag = Cell.findBy(xPosition, yPosition).equals(dest);
-            }
-            if (xPosition < xDest && yPosition < yDest) {
-                for (int i = 0; i < size; i++) {
-                    xPosition++;
-                    yPosition++;
-                }
-                diag = Cell.findBy(xPosition, yPosition).equals(dest);
-            }
-            if (xPosition > xDest && yPosition < yDest) {
-                for (int i = 0; i < size; i++) {
-                    xPosition--;
-                    yPosition++;
-                }
-                diag = Cell.findBy(xPosition, yPosition).equals(dest);
-            }
-            if (xPosition < xDest && yPosition > yDest) {
-                for (int i = 0; i < size; i++) {
-                    xPosition++;
-                    yPosition--;
-                }
-                diag = Cell.findBy(xPosition, yPosition).equals(dest);
-            }
-        return diag;
+        return Math.abs(position.getX() - dest.getX()) == Math.abs(position.getY() - dest.getY());
     }
 
     @Override

@@ -22,16 +22,14 @@ public final class Logic {
     }
 
     private boolean free(Cell[] steps) throws OccupiedCellException {
-        boolean rsl = true;
         for (Figure figure : figures) {
             for (Cell step : steps) {
-                if (figure.position().equals(step)) {
-                    rsl = false;
-                    throw new OccupiedCellException("ячейка занята");
+                if (figure != null && figure.position().equals(step)) {
+                    throw new OccupiedCellException("Клетка занята или на пути другая фигура");
                 }
             }
         }
-        return rsl;
+        return true;
     }
 
     public void clean() {
@@ -46,6 +44,6 @@ public final class Logic {
                 return index;
             }
         }
-        throw new FigureNotFoundException("фигуры нет на клетке");
+        throw new FigureNotFoundException("Фигуры нет на клетке");
     }
 }
